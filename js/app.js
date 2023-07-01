@@ -221,7 +221,7 @@ function iniciarMap() {
                 lng: longitude,
             };
             map.setCenter(coords)
-            map.setZoom(12)
+            map.setZoom(13)
             
         }, 
         () => {

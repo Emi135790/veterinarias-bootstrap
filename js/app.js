@@ -1,7 +1,7 @@
 // variables
-const estado = document.querySelector("#estado");
-const servicio = document.querySelector("#servicio");
-const texto = document.querySelector("#texto");
+const estado = document.querySelector(".estado");
+const servicio = document.querySelector(".servicio");
+const texto = document.querySelector(".texto");
 const reesultado = document.querySelector("#cartas");
 //event listener
 estado.addEventListener("change", (e) => {
@@ -110,14 +110,24 @@ function filtarvet() {
     noresultado('No hay resultados');
   }
 }
-function noresultado(mensaje) {
+
+
+function noresultado(mensaje,tipo) {
   limpiarHtml();
   const noresultado = document.createElement("DIV");
-  noresultado.classList.add("alert", "alert-danger", "text-center");
+  noresultado.classList.add("alert", "alert-danger", "text-center", 'm-3');
   noresultado.textContent = mensaje;
-
+  if(tipo === 'inicio'){
+    noresultado.classList.add("alert", "alert-info", "text-center", 'm-3');
+    noresultado.classList.remove('alert-danger')
+  }else if(tipo === 'error'){
+    noresultado.classList.add("alert", "alert-warning", "text-center", 'm-3');
+    noresultado.classList.remove('alert-danger')
+  }
   reesultado.appendChild(noresultado);
 }
+
+
 function filtrarestado(vet) {
   const { estado } = datosBusqueda;
   if (estado) {
@@ -162,9 +172,10 @@ const listenerCards = (veterinarias) => {
 
 
 function iniciarMap() {
-  
-  listenerCards(veterinarias);
-  noresultado('Busca un resultado')
+
+
+  noresultado('Agrega tu ubicacion...','inicio')
+
   var coord = { lat: 16.7940431, lng: -99.8029122 };
   const cordsmex = { lat: 19.432241, lng: -99.177254 };
 
@@ -218,10 +229,11 @@ function iniciarMap() {
     // gestureHandling: 'greedy',
   });
 
+
   button.addEventListener("click", () => {
     if (navigator.geolocation) {
-      mensaje()
-      
+      noresultado('Buscando resultados','error')
+
       navigator.geolocation.getCurrentPosition(
         ({ coords: { latitude, longitude } }) => {
           const coords = {
@@ -236,10 +248,11 @@ function iniciarMap() {
           alert('error')
         });
 
-        setTimeout(() => {
-          addMarker(veterinarias, map);
-          mostrarveterinarias(veterinarias);
-        }, 2000);
+      setTimeout(() => {
+        addMarker(veterinarias, map);
+        mostrarveterinarias(veterinarias);
+        listenerCards(veterinarias);
+      }, 2000);
 
 
     } else {
@@ -248,7 +261,7 @@ function iniciarMap() {
       );
     }
   });
-  
+
 
   // Resto de los marcadores ...
 }
@@ -267,15 +280,5 @@ const addMarker = (veterinarias, map) => {
 
   });
 };
-const chil = document.querySelector('#boton-busqueda') 
+const chil = document.querySelector('#botones')
 
-function mensaje(){
-  const texto = document.createElement('P');
-  texto.textContent="Buscando..."
-
-  chil.appendChild(texto)
-
-  setTimeout(() => {
-    texto.remove()
-  }, 2000);
-}

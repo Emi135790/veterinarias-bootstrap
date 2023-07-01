@@ -275,23 +275,20 @@ function iniciarMap() {
 }
 
 
-// const cartas = document.querySelectorAll('.card')
-
-// const callback = (entries) => {
-//   entries.forEach(entry => {
-//     if (entry.isIntersecting) {
-//       var lat = coord4.lat;
-//       var lng = coord4.lng;
-//     }
-//   })
-// }
-
-// const options = {
-//   threshold: 0.75
-// }
-
-// const observer = new IntersectionObserver(callback, options)
-// cartas.forEach(element => observer.observe(element));
+ const cartas = document.querySelectorAll('.card')
+ const callback = (entries) => {
+   entries.forEach(entry => {
+     if (entry.isIntersecting) {
+       var lat = coord4.lat;
+       var lng = coord4.lng;
+     }
+   })
+ }
+ const options = {
+   threshold: 0.75
+ }
+ const observer = new IntersectionObserver(callback, options)
+ cartas.forEach(element => observer.observe(element));
 
 
 

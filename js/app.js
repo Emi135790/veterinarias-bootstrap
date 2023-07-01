@@ -107,14 +107,14 @@ function filtarvet() {
   if (resultado.length) {
     mostrarveterinarias(resultado);
   } else {
-    noresultado();
+    noresultado('No hay resultados');
   }
 }
-function noresultado() {
+function noresultado(mensaje) {
   limpiarHtml();
   const noresultado = document.createElement("DIV");
   noresultado.classList.add("alert", "alert-danger", "text-center");
-  noresultado.textContent = "No hay resultados";
+  noresultado.textContent = mensaje;
 
   reesultado.appendChild(noresultado);
 }
@@ -149,21 +149,27 @@ function filtrarcolonia(vet) {
 
 const listenerCards = (veterinarias) => {
   document.querySelectorAll(".card").forEach((tarjeta, index) => {
-    tarjeta.addEventListener("click", () => map.panTo(veterinarias[index].coord));
-    
+    tarjeta.addEventListener("click", () => {
+      map.panTo(veterinarias[index].coord)
+      console.log('click')
+    })
+    // tarjeta.addEventListener("click", () => map.panTo(veterinarias[index].coord));
+
   });
 };
 
 
-function iniciarMap() {
-  mostrarveterinarias(veterinarias);
-  listenerCards(veterinarias);
 
+
+function iniciarMap() {
+  
+  listenerCards(veterinarias);
+  noresultado('Busca un resultado')
   var coord = { lat: 16.7940431, lng: -99.8029122 };
-  const cordsmex = {lat:19.432241, lng:-99.177254};
+  const cordsmex = { lat: 19.432241, lng: -99.177254 };
 
   map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 6,
+    zoom: 4,
     center: coord,
     styles: [
       {
@@ -208,33 +214,41 @@ function iniciarMap() {
         stylers: [{ color: "#a7a7a7" }], // Cambia el color de los elementos administrativos
       },
     ],
-    
+
     // gestureHandling: 'greedy',
   });
 
-  button.addEventListener("click",()=>{
+  button.addEventListener("click", () => {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            ({coords:{latitude,longitude}}) => {
-            const coords = {
-                lat: latitude,
-                lng: longitude,
-            };
-            map.setCenter(coords)
-            map.setZoom(13)
-            
-        }, 
+      mensaje()
+      
+      navigator.geolocation.getCurrentPosition(
+        ({ coords: { latitude, longitude } }) => {
+          const coords = {
+            lat: latitude,
+            lng: longitude,
+          };
+          map.setCenter(coords)
+          map.setZoom(13)
+
+        },
         () => {
-            alert('error')
-        }
-        );
+          alert('error')
+        });
+
+        setTimeout(() => {
+          addMarker(veterinarias, map);
+          mostrarveterinarias(veterinarias);
+        }, 2000);
+
+
     } else {
-        alert(
-            'no '
-        );
+      alert(
+        'no '
+      );
     }
-});
-  addMarker(veterinarias, map);
+  });
+  
 
   // Resto de los marcadores ...
 }
@@ -250,8 +264,18 @@ const addMarker = (veterinarias, map) => {
       map: map,
       icon: iconoPersonalizado,
     });
-   
-  });
-  
 
+  });
 };
+const chil = document.querySelector('#boton-busqueda') 
+
+function mensaje(){
+  const texto = document.createElement('P');
+  texto.textContent="Buscando..."
+
+  chil.appendChild(texto)
+
+  setTimeout(() => {
+    texto.remove()
+  }, 2000);
+}

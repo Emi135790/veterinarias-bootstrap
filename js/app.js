@@ -3,7 +3,6 @@ const estado = document.querySelector("#estado");
 const servicio = document.querySelector("#servicio");
 const texto = document.querySelector("#texto");
 const reesultado = document.querySelector("#cartas");
-
 //event listener
 estado.addEventListener("change", (e) => {
   datosBusqueda.estado = e.target.value;
@@ -20,6 +19,7 @@ texto.addEventListener("change", (e) => {
 
   filtarvet();
 });
+
 //gnerar un objero con la bsqueda
 const datosBusqueda = {
   texto: "",
@@ -89,6 +89,7 @@ function mostrarveterinarias(veterinarias) {
     tarjetas.appendChild(tarjeta);
 
     reesultado.appendChild(tarjetas);
+
   });
 }
 
@@ -148,19 +149,21 @@ function filtrarcolonia(vet) {
 
 const listenerCards = (veterinarias) => {
   document.querySelectorAll(".card").forEach((tarjeta, index) => {
-    tarjeta.addEventListener("click", () =>
-      map.panTo(veterinarias[index].coord)
-    );
+    tarjeta.addEventListener("click", () => map.panTo(veterinarias[index].coord));
+    
   });
 };
+
+
 function iniciarMap() {
   mostrarveterinarias(veterinarias);
   listenerCards(veterinarias);
 
   var coord = { lat: 16.7940431, lng: -99.8029122 };
+  const cordsmex = {lat:19.432241, lng:-99.177254};
 
   map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 13,
+    zoom: 6,
     center: coord,
     styles: [
       {
@@ -205,8 +208,32 @@ function iniciarMap() {
         stylers: [{ color: "#a7a7a7" }], // Cambia el color de los elementos administrativos
       },
     ],
+    
     // gestureHandling: 'greedy',
   });
+
+  button.addEventListener("click",()=>{
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            ({coords:{latitude,longitude}}) => {
+            const coords = {
+                lat: latitude,
+                lng: longitude,
+            };
+            map.setCenter(coords)
+            map.setZoom(12)
+            
+        }, 
+        () => {
+            alert('error')
+        }
+        );
+    } else {
+        alert(
+            'no '
+        );
+    }
+});
   addMarker(veterinarias, map);
 
   // Resto de los marcadores ...
@@ -215,7 +242,7 @@ function iniciarMap() {
 const addMarker = (veterinarias, map) => {
   let iconoPersonalizado = {
     url: "./img/iconlocation.png",
-    scaledSize: new google.maps.Size(30, 50), // Tamaño del ícono
+    scaledSize: new google.maps.Size(30, 40), // Tamaño del ícono
   };
   veterinarias.forEach((veterinaria) => {
     let marker = new google.maps.Marker({
@@ -223,6 +250,7 @@ const addMarker = (veterinarias, map) => {
       map: map,
       icon: iconoPersonalizado,
     });
+   
   });
   
 

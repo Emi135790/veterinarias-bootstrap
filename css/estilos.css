@@ -145,7 +145,7 @@ li{
         height:450px;
     }
     .card{
-        min-width:calc(101% - .5rem) ;
+        min-width:calc(120% - 10.5rem) ;
         scroll-snap-align: start;
         user-select: none;
     }

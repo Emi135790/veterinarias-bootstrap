@@ -8,10 +8,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,400;1,700&display=swap"
         rel="stylesheet">
-        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/estilos.css">
-    <title><Label></Label>ocalizador De Veterinarias</title>
+    <title>Localizador De Veterinarias</title>
     <link rel="icon" href="img/logos/logo.png">
 </head>
 
@@ -21,19 +21,8 @@
             <a class="navbar-brand" href="boostrap.html">
                 <img src="img/logos/logo3.png" alt="Logo veterinarias">
             </a>
-            <button class="navbar-toggler border-0 bg-first-color" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <div class="navbar" id="navbarNavDropdown">
                 <ul class="navbar-nav ms-lg-auto ">
-                    <li class="nav-item ">
-                        <a class="nav-link selector fw-bold fs-3 selector" href="principal.html">Inicio</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link fw-bold fs-3" href="veterinarias.html" role="button">Veterinarias</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link fw-bold fs-3" href="login.html">Login</a>
                     </li>
@@ -41,7 +30,39 @@
             </div>
         </div>
     </nav>
-<script src="js/bootstrap.js"></script>
+    <main>
+        <section class="fondo1 d-flex  align-items-center">
+            <div class="container-lg bg-white rounded-4 p-4 ">
+                <article class="text-center"> 
+                    <h1>¡Descubre veterinarias cercanas a ti!</h1>
+                    <p>Ayúdanos a encontrar las mejores opciones para tu mascota ingresando tu ubicación actual.</p>
+                </article>
+
+                <article id="boton-busqueda">
+                    
+                </article>
+                <div class="d-flex flex-column align-items-center d-none" id="cont1">
+                    <div class="text-center d-flex flex-column  w-75">
+                        <div class="d-flex flex-column">
+                            <input type="text" class="form-control mb-3" for="buscador" placeholder="Ciudad de México... Guadalaja... Monterrey...">
+                            <button class="btn btn-primary mb-3" id="buscador">Buscar</button>
+                          </div>
+                    </div>
+                </div>
+               
+                <div class="d-flex flex-column align-items-center ">
+                    <div class="text-center d-flex flex-column">
+                        <button id="button-index" class="btn btn-primary w-100 mb-3 d-block">Mi ubicacion</button>
+                        <a href="#" id="btncambio" class="d-block">¿Quieres agregar una ubicacion diferente a la tuya?, Click</a>
+                        <a href="#" id="btncambio2" class="d-none">¿Quieres usar tu ubicacion actual?, Click</a>
+                        <a href="principal.html">¿Quieres saber mas de nosotros?, Click</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/app.js"></script>
 </body>
 
 </html>

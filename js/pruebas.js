@@ -1,34 +1,26 @@
-
-function initMap(){
-    const cordsmex = {lat:19.432241, lng:-99.177254};
-    const map = new google.maps.Map(mapDiv,{
-        center:cordsmex,
-        zoom:6
-    })
-    const marker = new google.maps.Marker({
-        position:cordsmex,
-        map,
-    })
-    button.addEventListener("click",()=>{
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                ({coords:{latitude,longitude}}) => {
-                const coords = {
-                    lat: latitude,
-                    lng: longitude,
-                };
-                map.setCenter(coords)
-                map.setZoom(8)
-                marker.setPosition(coords)
-            }, 
-            () => {
-                alert('error')
-            }
-            );
-        } else {
-            alert(
-                'no '
-            );
-        }
+window.onload = function(){
+    let input = document.getElementById('search-input')
+    let map = new google.maps.Map(document.getElementById('map'),{
+        zoom:4,
+        center: { lat: 19.432241, lng: -99.177254 },
+        scrollwheel: true,
     });
+    let options ={
+    types:['(cities)'],
+    componentRestrictions:{country:['mx']}
+    }
+    let autocomplete = new google.maps.places.Autocomplete(input,options)
+    autocomplete.bindTo('bounds',map)
+
+    const btn = document.querySelector('#btn')
+    btn.addEventListener('click',()=>{
+        let place = autocomplete.getPlace()
+        if(place.geometry.viewport){
+            map.fitBounds(place.geometry.viewport);
+            
+        }else{
+            map.setCenter(place.geometry.location);
+            map.setZoom(9);
+        }
+    })
 }

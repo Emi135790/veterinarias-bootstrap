@@ -1,24 +1,25 @@
 // variables
-const estado = document.querySelector(".estado");
-const servicio = document.querySelector(".servicio");
-const texto = document.querySelector(".texto");
+const estado = document.querySelector("#estado");
+const servicio = document.querySelector("#servicio");
+const texto = document.querySelector("#texto");
 const reesultado = document.querySelector("#cartas");
+
+
 //event listener
-estado.addEventListener("change", (e) => {
-  datosBusqueda.estado = e.target.value;
+ estado.addEventListener("change", (e) => {
+   datosBusqueda.estado = e.target.value;
 
-  filtarvet();
-});
-servicio.addEventListener("change", (e) => {
+   filtarvet();
+ });
+ servicio.addEventListener("change", (e) => {   
   datosBusqueda.servicio = e.target.value;
-
-  filtarvet();
-});
-texto.addEventListener("change", (e) => {
+   filtarvet();
+ });
+ texto.addEventListener("change", (e) => {
   datosBusqueda.texto = e.target.value;
 
-  filtarvet();
-});
+   filtarvet();
+ });
 
 //gnerar un objero con la bsqueda
 const datosBusqueda = {
@@ -178,7 +179,7 @@ function iniciarMap() {
 
   var coord = { lat: 16.7940431, lng: -99.8029122 };
   const cordsmex = { lat: 19.432241, lng: -99.177254 };
-
+  
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 4,
     center: coord,
@@ -229,42 +230,47 @@ function iniciarMap() {
     // gestureHandling: 'greedy',
   });
 
-
+  
   button.addEventListener("click", () => {
-    if (navigator.geolocation) {
-      noresultado('Buscando resultados','error')
-
-      navigator.geolocation.getCurrentPosition(
-        ({ coords: { latitude, longitude } }) => {
-          const coords = {
-            lat: latitude,
-            lng: longitude,
-          };
-          map.setCenter(coords)
-          map.setZoom(13)
-
-        },
-        () => {
-          alert('error')
-        });
-
-      setTimeout(() => {
-        addMarker(veterinarias, map);
-        mostrarveterinarias(veterinarias);
-        listenerCards(veterinarias);
-      }, 2000);
-
-
-    } else {
-      alert(
-        'no '
-      );
-    }
+    llamarMapa()
   });
 
 
   // Resto de los marcadores ...
 }
+
+function llamarMapa(){
+  if (navigator.geolocation) {
+    noresultado('Buscando resultados','error')
+
+    navigator.geolocation.getCurrentPosition(
+      ({ coords: { latitude, longitude } }) => {
+        const coords = {
+          lat: latitude,
+          lng: longitude,
+        };
+        map.setCenter(coords)
+        map.setZoom(13)
+
+      },
+      () => {
+        alert('error')
+      });
+
+    setTimeout(() => {
+      addMarker(veterinarias, map);
+      mostrarveterinarias(veterinarias);
+      listenerCards(veterinarias);
+    }, 2000);
+
+
+  } else {
+    alert(
+      'no '
+    );
+  }
+}
+
 
 const addMarker = (veterinarias, map) => {
   let iconoPersonalizado = {
@@ -280,5 +286,50 @@ const addMarker = (veterinarias, map) => {
 
   });
 };
-const chil = document.querySelector('#botones')
+// const chil = document.querySelector('#botones')
+
+
+
+//**index pedir ubicacion */
+const botonIndex = document.querySelector('#button-index');
+const cont1 = document.querySelector('#cont1');
+const btncambio = document.querySelector('#btncambio')
+const btncambio2 = document.querySelector('#btncambio2')
+
+btncambio.addEventListener('click', cambiar)
+btncambio2.addEventListener('click', cambiar2)
+
+function cambiar(e){
+  e.preventDefault()
+
+  botonIndex.classList.remove('d-block')
+  botonIndex.classList.add('d-none')
+
+  
+  cont1.classList.add('d-block')
+  cont1.classList.remove('d-none')
+
+  btncambio2.classList.remove('d-none')
+  btncambio2.classList.add('d-block')
+
+  btncambio.classList.remove('d-block')
+  btncambio.classList.add('d-none')
+  
+}
+
+function cambiar2(e){
+  e.preventDefault()
+  botonIndex.classList.add('d-block')
+  botonIndex.classList.remove('d-none')
+
+  
+  cont1.classList.remove('d-block')
+  cont1.classList.add('d-none')
+
+  btncambio2.classList.remove('d-block')
+  btncambio2.classList.add('d-none')
+
+  btncambio.classList.add('d-block')
+  btncambio.classList.remove('d-none')
+}
 

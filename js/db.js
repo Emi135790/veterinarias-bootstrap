@@ -7,6 +7,7 @@ const veterinarias = [
     enlace: "",
     servicio: "domicilio",
     estado: "abierto",
+    ciudad:'acapulco',
     coord: { lat: 16.7940431, lng: -99.8029122 },
   },
   {
@@ -17,6 +18,7 @@ const veterinarias = [
     enlace: "",
     servicio: "domicilio",
     estado: "cerrado",
+    ciudad:'acapulco',
     coord: { lat: 16.80093680747825, lng: -99.80409096199409 },
   },
   {
@@ -27,6 +29,7 @@ const veterinarias = [
     enlace: "",
     servicio: "normal",
     estado: "abierto",
+    ciudad:'acapulco',
     coord: { lat: 16.807644168779564, lng: -99.82223532793019 },
   },
   {
@@ -37,6 +40,7 @@ const veterinarias = [
     enlace: "",
     servicio: "normal",
     estado: "cerrado",
+    ciudad:'acapulco',
     coord: { lat: 16.7997121, lng: -99.8066849 },
   },
   {
@@ -47,7 +51,19 @@ const veterinarias = [
     enlace: "",
     servicio: "domicilio",
     estado: "abierto",
+    ciudad:'acapulco',
     coord: { lat: 16.842807133531252, lng: -99.81245062952244 },
+  },
+  {
+    id: "vet6",
+    titulo: "veterinaria guadalajara",
+    texto: "Zapopan",
+    imagen: "../img/veterinarias/vete6.jpg",
+    enlace: "",
+    servicio: "domicilio",
+    estado: "abierto",
+    ciudad:'guadalajara',
+    coord: { lat: 20.6737723, lng:-103.4178151 },
   },
   // {
   //   id: "vet6",

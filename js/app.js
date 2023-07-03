@@ -162,7 +162,6 @@ const listenerCards = (veterinarias) => {
   document.querySelectorAll(".card").forEach((tarjeta, index) => {
     tarjeta.addEventListener("click", () => {
       map.panTo(veterinarias[index].coord)
-      console.log('click')
     })
     // tarjeta.addEventListener("click", () => map.panTo(veterinarias[index].coord));
 
@@ -173,13 +172,8 @@ const listenerCards = (veterinarias) => {
 
 
 function iniciarMap() {
-
-
   noresultado('Agrega tu ubicacion...', 'inicio')
-
   var coord = { lat: 16.7940431, lng: -99.8029122 };
-  const cordsmex = { lat: 19.432241, lng: -99.177254 };
-
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 4,
     center: coord,
@@ -188,46 +182,8 @@ function iniciarMap() {
         featureType: "poi.business",
         stylers: [{ visibility: "off" }], // Oculta los negocios locales
       },
-      {
-        elementType: "geometry",
-        stylers: [{ color: "#1d1c1d" }], // Cambia el color de fondo del mapa
-      },
-      {
-        elementType: "labels.text.stroke",
-        stylers: [{ color: "#141414" }], // Cambia el color del contorno de las etiquetas
-      },
-      {
-        elementType: "labels.text.fill",
-        stylers: [{ color: "#ffffff" }], // Cambia el color del texto de las etiquetas
-      },
-      {
-        featureType: "water",
-        elementType: "geometry",
-        stylers: [{ color: "#131e34" }], // Cambia el color del agua
-      },
-      {
-        featureType: "landscape",
-        elementType: "geometry",
-        stylers: [{ color: "#141414" }], // Cambia el color del paisaje
-      },
-      {
-        featureType: "road",
-        elementType: "geometry",
-        stylers: [{ color: "#3a3e40" }], // Cambia el color de las carreteras
-      },
-      {
-        featureType: "poi",
-        elementType: "geometry",
-        stylers: [{ color: "#dddddd" }], // Cambia el color de los puntos de interés
-      },
-      {
-        featureType: "administrative",
-        elementType: "geometry",
-        stylers: [{ color: "#a7a7a7" }], // Cambia el color de los elementos administrativos
-      },
-    ],
 
-    // gestureHandling: 'greedy',
+    ],
   });
   let options = {
     types: ['(cities)'],
@@ -243,23 +199,20 @@ function iniciarMap() {
   autocomplete.addListener('place_changed', () => {
     
     let place = autocomplete.getPlace()
-    
-    if (place.geometry.viewport) {
-      map.fitBounds(place.geometry.viewport);
-      
-    } else {
-      map.setCenter(place.geometry.location);
-      map.setZoom(13);
-     
-    }
+    map.setCenter(place.geometry.location);
+    map.setZoom(13);
+    llamarporubicacion();
+    // if (place.geometry.viewport) {map.fitBounds(place.geometry.viewport);} else {}
+
     ///esto markers
-    let request ={
-      location:place.geometry.location,
-      radius:'500',
-      type:'atm'
-    }
+    // let request ={
+    //   location:place.geometry.location,
+    //   radius:'500',
+    //   type:'veterinary_care'
+    // }
     service = new google.maps.places.PlacesService(map)
     service.nearbySearch(request,callback)
+    
   })
 
 
@@ -276,7 +229,7 @@ function iniciarMap() {
 function callback(results,status){
   if (status == google.maps.places.PlacesServiceStatus.OK){
     for(var i = 0; i < results.length; i++){
-      var place = results[i];
+      // var place = results[i];
       crearmarker(results[i]);
     }
   }
@@ -285,7 +238,8 @@ function callback(results,status){
 
 function llamarMapa() {
   if (navigator.geolocation) {
-    noresultado('Buscando resultados', 'error')
+    noresultado('Buscando resultados...', 'error')
+    
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude, longitude } }) => {
         const coords = {
@@ -298,26 +252,21 @@ function llamarMapa() {
       () => {
         alert('error')
       });
-      addMarker(veterinarias, map);
-      mostrarveterinarias(veterinarias);
-      listenerCards(veterinarias);
+     llamarporubicacion();
+      
   } else {
     alert(
       'no '
     );
   }
 }
-
-function NuevaUbicacion(){
+function llamarporubicacion(){
   setTimeout(() => {
     addMarker(veterinarias, map);
-    mostrarveterinarias(veterinarias);
-    listenerCards(veterinarias);
+  mostrarveterinarias(veterinarias);
+  listenerCards(veterinarias);
   }, 2000);
-
 }
-
-
 const addMarker = (veterinarias, map) => {
   let iconoPersonalizado = {
     url: "./img/iconlocation.png",
@@ -336,11 +285,18 @@ const addMarker = (veterinarias, map) => {
 
   });
 };
+
+
+// const cartas = document.querySelectorAll('.card')
+
 ///esto markers
 function crearmarker (place){
   var marker = new google.maps.Marker({
     map:map,
     position:place.geometry.location
+  })
+  google.maps.event.addListener(marker,'click',function(){
+    alert(place.name)
   })
  
 }
@@ -348,46 +304,5 @@ function crearmarker (place){
 
 
 
-//**index pedir ubicacion */
-const botonIndex = document.querySelector('#button-index');
-const cont1 = document.querySelector('#cont1');
-const btncambio = document.querySelector('#btncambio')
-const btncambio2 = document.querySelector('#btncambio2')
 
-btncambio.addEventListener('click', cambiar)
-btncambio2.addEventListener('click', cambiar2)
-
-function cambiar(e) {
-  e.preventDefault()
-
-  botonIndex.classList.remove('d-block')
-  botonIndex.classList.add('d-none')
-
-
-  cont1.classList.add('d-block')
-  cont1.classList.remove('d-none')
-
-  btncambio2.classList.remove('d-none')
-  btncambio2.classList.add('d-block')
-
-  btncambio.classList.remove('d-block')
-  btncambio.classList.add('d-none')
-
-}
-
-function cambiar2(e) {
-  e.preventDefault()
-  botonIndex.classList.add('d-block')
-  botonIndex.classList.remove('d-none')
-
-
-  cont1.classList.remove('d-block')
-  cont1.classList.add('d-none')
-
-  btncambio2.classList.remove('d-block')
-  btncambio2.classList.add('d-none')
-
-  btncambio.classList.add('d-block')
-  btncambio.classList.remove('d-none')
-}
 

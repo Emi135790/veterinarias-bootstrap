@@ -12,7 +12,6 @@ window.onload = function(){
     let autocomplete = new google.maps.places.Autocomplete(input,options)
     autocomplete.bindTo('bounds',map)
 
-    const btn = document.querySelector('#btn')
     btn.addEventListener('click',()=>{
         let place = autocomplete.getPlace()
         if(place.geometry.viewport){

@@ -239,8 +239,7 @@ function iniciarMap() {
   autocomplete.bindTo('bounds', map)
 
   const btn = document.querySelector('#btn')
-  btn.addEventListener('click', () => {
-    noresultado('Buscando resultados...', 'error')
+  autocomplete.addListener('place_changed', () => {
     let place = autocomplete.getPlace()
     if (place.geometry.viewport) {
       map.fitBounds(place.geometry.viewport);
@@ -250,6 +249,9 @@ function iniciarMap() {
       map.setZoom(9);
     }
   })
+
+
+
   button.addEventListener("click", () => {
     llamarMapa()
   });

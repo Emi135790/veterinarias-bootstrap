@@ -13,6 +13,7 @@ window.onload = function(){
     autocomplete.bindTo('bounds',map)
 
     btn.addEventListener('click',()=>{
+        
         let place = autocomplete.getPlace()
         if(place.geometry.viewport){
             map.fitBounds(place.geometry.viewport);

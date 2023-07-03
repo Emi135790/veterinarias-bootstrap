@@ -238,15 +238,19 @@ function iniciarMap() {
   let autocomplete = new google.maps.places.Autocomplete(input, options)
   autocomplete.bindTo('bounds', map)
 
-  const btn = document.querySelector('#btn')
+  // const btn = document.querySelector('#btn')
+
   autocomplete.addListener('place_changed', () => {
+    
     let place = autocomplete.getPlace()
+    
     if (place.geometry.viewport) {
       map.fitBounds(place.geometry.viewport);
-
+      
     } else {
       map.setCenter(place.geometry.location);
       map.setZoom(9);
+     
     }
   })
 
@@ -263,7 +267,6 @@ function iniciarMap() {
 function llamarMapa() {
   if (navigator.geolocation) {
     noresultado('Buscando resultados', 'error')
-
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude, longitude } }) => {
         const coords = {
@@ -272,19 +275,13 @@ function llamarMapa() {
         };
         map.setCenter(coords)
         map.setZoom(13)
-
       },
       () => {
         alert('error')
       });
-
-    setTimeout(() => {
       addMarker(veterinarias, map);
       mostrarveterinarias(veterinarias);
       listenerCards(veterinarias);
-    }, 2000);
-
-
   } else {
     alert(
       'no '

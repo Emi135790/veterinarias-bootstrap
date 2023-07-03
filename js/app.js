@@ -6,20 +6,20 @@ const reesultado = document.querySelector("#cartas");
 
 
 //event listener
- estado.addEventListener("change", (e) => {
-   datosBusqueda.estado = e.target.value;
+estado.addEventListener("change", (e) => {
+  datosBusqueda.estado = e.target.value;
 
-   filtarvet();
- });
- servicio.addEventListener("change", (e) => {   
+  filtarvet();
+});
+servicio.addEventListener("change", (e) => {
   datosBusqueda.servicio = e.target.value;
-   filtarvet();
- });
- texto.addEventListener("change", (e) => {
+  filtarvet();
+});
+texto.addEventListener("change", (e) => {
   datosBusqueda.texto = e.target.value;
 
-   filtarvet();
- });
+  filtarvet();
+});
 
 //gnerar un objero con la bsqueda
 const datosBusqueda = {
@@ -113,15 +113,15 @@ function filtarvet() {
 }
 
 
-function noresultado(mensaje,tipo) {
+function noresultado(mensaje, tipo) {
   limpiarHtml();
   const noresultado = document.createElement("DIV");
   noresultado.classList.add("alert", "alert-danger", "text-center", 'm-3');
   noresultado.textContent = mensaje;
-  if(tipo === 'inicio'){
+  if (tipo === 'inicio') {
     noresultado.classList.add("alert", "alert-info", "text-center", 'm-3');
     noresultado.classList.remove('alert-danger')
-  }else if(tipo === 'error'){
+  } else if (tipo === 'error') {
     noresultado.classList.add("alert", "alert-warning", "text-center", 'm-3');
     noresultado.classList.remove('alert-danger')
   }
@@ -175,11 +175,11 @@ const listenerCards = (veterinarias) => {
 function iniciarMap() {
 
 
-  noresultado('Agrega tu ubicacion...','inicio')
+  noresultado('Agrega tu ubicacion...', 'inicio')
 
   var coord = { lat: 16.7940431, lng: -99.8029122 };
   const cordsmex = { lat: 19.432241, lng: -99.177254 };
-  
+
   map = new google.maps.Map(document.getElementById("map"), {
     zoom: 4,
     center: coord,
@@ -229,8 +229,27 @@ function iniciarMap() {
 
     // gestureHandling: 'greedy',
   });
+  let options = {
+    types: ['(cities)'],
+    componentRestrictions: { country: ['mx'] }
+  }
 
-  
+  let input = document.getElementById('search-input')
+  let autocomplete = new google.maps.places.Autocomplete(input, options)
+  autocomplete.bindTo('bounds', map)
+
+  const btn = document.querySelector('#btn')
+  btn.addEventListener('click', () => {
+    noresultado('Buscando resultados...', 'error')
+    let place = autocomplete.getPlace()
+    if (place.geometry.viewport) {
+      map.fitBounds(place.geometry.viewport);
+
+    } else {
+      map.setCenter(place.geometry.location);
+      map.setZoom(9);
+    }
+  })
   button.addEventListener("click", () => {
     llamarMapa()
   });
@@ -239,9 +258,9 @@ function iniciarMap() {
   // Resto de los marcadores ...
 }
 
-function llamarMapa(){
+function llamarMapa() {
   if (navigator.geolocation) {
-    noresultado('Buscando resultados','error')
+    noresultado('Buscando resultados', 'error')
 
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude, longitude } }) => {
@@ -269,6 +288,15 @@ function llamarMapa(){
       'no '
     );
   }
+}
+
+function NuevaUbicacion(){
+  setTimeout(() => {
+    addMarker(veterinarias, map);
+    mostrarveterinarias(veterinarias);
+    listenerCards(veterinarias);
+  }, 2000);
+
 }
 
 
@@ -299,13 +327,13 @@ const btncambio2 = document.querySelector('#btncambio2')
 btncambio.addEventListener('click', cambiar)
 btncambio2.addEventListener('click', cambiar2)
 
-function cambiar(e){
+function cambiar(e) {
   e.preventDefault()
 
   botonIndex.classList.remove('d-block')
   botonIndex.classList.add('d-none')
 
-  
+
   cont1.classList.add('d-block')
   cont1.classList.remove('d-none')
 
@@ -314,15 +342,15 @@ function cambiar(e){
 
   btncambio.classList.remove('d-block')
   btncambio.classList.add('d-none')
-  
+
 }
 
-function cambiar2(e){
+function cambiar2(e) {
   e.preventDefault()
   botonIndex.classList.add('d-block')
   botonIndex.classList.remove('d-none')
 
-  
+
   cont1.classList.remove('d-block')
   cont1.classList.add('d-none')
 

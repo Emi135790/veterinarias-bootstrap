@@ -249,14 +249,14 @@ function iniciarMap() {
       
     } else {
       map.setCenter(place.geometry.location);
-      map.setZoom(9);
+      map.setZoom(13);
      
     }
     ///esto markers
     let request ={
       location:place.geometry.location,
       radius:'500',
-      type:listenerCards
+      type:'atm'
     }
     service = new google.maps.places.PlacesService(map)
     service.nearbySearch(request,callback)

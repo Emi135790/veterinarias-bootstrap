@@ -252,6 +252,14 @@ function iniciarMap() {
       map.setZoom(9);
      
     }
+    ///esto markers
+    let request ={
+      location:place.geometry.location,
+      radius:'500',
+      type:listenerCards
+    }
+    service = new google.maps.places.PlacesService(map)
+    service.nearbySearch(request,callback)
   })
 
 
@@ -263,6 +271,17 @@ function iniciarMap() {
 
   // Resto de los marcadores ...
 }
+
+///esto markers
+function callback(results,status){
+  if (status == google.maps.places.PlacesServiceStatus.OK){
+    for(var i = 0; i < results.length; i++){
+      var place = results[i];
+      crearmarker(results[i]);
+    }
+  }
+}
+
 
 function llamarMapa() {
   if (navigator.geolocation) {
@@ -310,9 +329,21 @@ const addMarker = (veterinarias, map) => {
       map: map,
       icon: iconoPersonalizado,
     });
+ google.maps.event.addListener(marker,'click',function(){
+    alert(veterinaria.titulo)
+  })
+
 
   });
 };
+///esto markers
+function crearmarker (place){
+  var marker = new google.maps.Marker({
+    map:map,
+    position:place.geometry.location
+  })
+ 
+}
 // const chil = document.querySelector('#botones')
 
 

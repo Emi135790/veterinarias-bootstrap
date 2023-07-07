@@ -3,7 +3,9 @@ const estado = document.querySelector("#estado");
 const servicio = document.querySelector("#servicio");
 const texto = document.querySelector("#texto");
 const reesultado = document.querySelector("#cartas");
-
+const prueba = document.querySelectorAll('.form-check-input')
+let input = document.getElementById('search-input')
+const aplicar = document.querySelector('#aplicar')
 
 //event listener
 estado.addEventListener("change", (e) => {
@@ -20,12 +22,23 @@ texto.addEventListener("change", (e) => {
 
   filtarvet();
 });
+aplicar.addEventListener("click", function () {
+  prueba.forEach((e)=>{
+    if(e.checked == true){
+      console.log(e.value)
+    }
+  })
+
+ 
+})
 
 //gnerar un objero con la bsqueda
 const datosBusqueda = {
   texto: "",
   estado: "",
   servicio: "",
+  input: "",
+  prueba:'',
 };
 var map;
 var coord1, coord2, coord3, coord4, coord5;
@@ -101,9 +114,11 @@ function limpiarHtml() {
 }
 function filtarvet() {
   const resultado = veterinarias
+  
     .filter(filtrarestado)
     .filter(filtrarservicio)
-    .filter(filtrarcolonia);
+    .filter(filtrarcolonia)
+    .filter(filtrarInput)
 
   if (resultado.length) {
     mostrarveterinarias(resultado);
@@ -111,8 +126,6 @@ function filtarvet() {
     noresultado('No hay resultados');
   }
 }
-
-
 function noresultado(mensaje, tipo) {
   limpiarHtml();
   const noresultado = document.createElement("DIV");
@@ -134,7 +147,6 @@ function filtrarestado(vet) {
   if (estado) {
     return vet.estado === estado;
   }
-
   return vet;
 }
 
@@ -147,12 +159,28 @@ function filtrarservicio(vet) {
 
   return vet;
 }
+function filtrocheck(vet){
+  const { prueba } = datosBusqueda;
 
+  if (prueba) {
+    return vet.prueba === prueba;
+  }
+
+  return vet;
+}
 function filtrarcolonia(vet) {
   const { texto } = datosBusqueda;
-
   if (texto) {
     return vet.texto === texto;
+  }
+
+  return vet;
+}
+
+function filtrarInput(vet) {
+  const { input } = datosBusqueda;
+  if (input) {
+    return vet.texto.toLowerCase().includes(input.toLowerCase());
   }
 
   return vet;
@@ -167,9 +195,6 @@ const listenerCards = (veterinarias) => {
 
   });
 };
-
-
-
 
 function iniciarMap() {
   noresultado('Agrega tu ubicacion...', 'inicio')
@@ -187,59 +212,28 @@ function iniciarMap() {
   });
   let options = {
     types: ['(cities)'],
-    componentRestrictions: { country: ['mx'] }
+    componentRestrictions: { country: ['mx']}
   }
-
-  let input = document.getElementById('search-input')
   let autocomplete = new google.maps.places.Autocomplete(input, options)
   autocomplete.bindTo('bounds', map)
 
   // const btn = document.querySelector('#btn')
 
   autocomplete.addListener('place_changed', () => {
-    
+    llamarporubicacion();
     let place = autocomplete.getPlace()
     map.setCenter(place.geometry.location);
     map.setZoom(13);
-    llamarporubicacion();
-    // if (place.geometry.viewport) {map.fitBounds(place.geometry.viewport);} else {}
-
-    ///esto markers
-    // let request ={
-    //   location:place.geometry.location,
-    //   radius:'500',
-    //   type:'veterinary_care'
-    // }
-    service = new google.maps.places.PlacesService(map)
-    service.nearbySearch(request,callback)
-    
   })
-
-
-
   button.addEventListener("click", () => {
     llamarMapa()
   });
-
-
-  // Resto de los marcadores ...
 }
-
-///esto markers
-function callback(results,status){
-  if (status == google.maps.places.PlacesServiceStatus.OK){
-    for(var i = 0; i < results.length; i++){
-      // var place = results[i];
-      crearmarker(results[i]);
-    }
-  }
-}
-
 
 function llamarMapa() {
   if (navigator.geolocation) {
     noresultado('Buscando resultados...', 'error')
-    
+
     navigator.geolocation.getCurrentPosition(
       ({ coords: { latitude, longitude } }) => {
         const coords = {
@@ -252,19 +246,19 @@ function llamarMapa() {
       () => {
         alert('error')
       });
-     llamarporubicacion();
-      
+    llamarporubicacion();
+
   } else {
     alert(
       'no '
     );
   }
 }
-function llamarporubicacion(){
+function llamarporubicacion() {
   setTimeout(() => {
     addMarker(veterinarias, map);
-  mostrarveterinarias(veterinarias);
-  listenerCards(veterinarias);
+    mostrarveterinarias(veterinarias);
+    listenerCards(veterinarias);
   }, 2000);
 }
 const addMarker = (veterinarias, map) => {
@@ -277,32 +271,13 @@ const addMarker = (veterinarias, map) => {
       position: veterinaria.coord,
       map: map,
       icon: iconoPersonalizado,
+      optimized: true,
+      
     });
- google.maps.event.addListener(marker,'click',function(){
-    alert(veterinaria.titulo)
-  })
+    google.maps.event.addListener(marker, 'click', function () {
+      alert(veterinaria.titulo)
+    })
 
 
   });
 };
-
-
-// const cartas = document.querySelectorAll('.card')
-
-///esto markers
-function crearmarker (place){
-  var marker = new google.maps.Marker({
-    map:map,
-    position:place.geometry.location
-  })
-  google.maps.event.addListener(marker,'click',function(){
-    alert(place.name)
-  })
- 
-}
-// const chil = document.querySelector('#botones')
-
-
-
-
-

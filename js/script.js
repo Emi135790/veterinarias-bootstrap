@@ -46,28 +46,17 @@ function cambiar2(e) {
 
 
 function iniciarMap() {
-  let input = document.getElementById('search-input')
+  map = new google.maps.Map(document.getElementById("map"));
+  let options = {
+    types: ['(cities)'],
+    componentRestrictions: { country: ['mx']}
+  }
   let autocomplete = new google.maps.places.Autocomplete(input, options)
   autocomplete.bindTo('bounds', map)
-
-  // const btn = document.querySelector('#btn')
-  const buscar = document.querySelector('#buscador')
-  buscar.addListener('click', () => {
-    
-    let place = autocomplete.getPlace()
-    map.setCenter(place.geometry.location);
-    map.setZoom(13);
-    llamarporubicacion();
-    // if (place.geometry.viewport) {map.fitBounds(place.geometry.viewport);} else {}
-
-    ///esto markers
-    // let request ={
-    //   location:place.geometry.location,
-    //   radius:'500',
-    //   type:'veterinary_care'
-    // }
-    service = new google.maps.places.PlacesService(map)
-    service.nearbySearch(request,callback)
-    
-  })
+  // autocomplete.addListener('place_changed', () => {
+  //   llamarporubicacion();
+  //   let place = autocomplete.getPlace()
+  //   map.setCenter(place.geometry.location);
+  //   map.setZoom(13);
+  // })
 }

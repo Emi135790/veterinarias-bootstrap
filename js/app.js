@@ -348,6 +348,7 @@ function obtenerCoordenadasIniciales() {
     }
   } else {
     strHTML += "No hay marcadores dentro de las coordenadas.</br>";
+    noresultado('No hay resultados en esta zona')
   }
 
   document.getElementById("info").innerHTML = strHTML;

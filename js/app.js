@@ -213,7 +213,8 @@ function filtrarInput(vet) {
   return vet;
 }
 bontonubicacio.addEventListener('click',() =>{
-  ocultarMarcadoresNoVisibles(resultadoFiltrado);
+  llamarporubicacion();
+  google.maps.event.addListener(map, 'bounds_changed', obtenerCoordenadasIniciales);
 })
 
 function iniciarMap() {
@@ -251,10 +252,7 @@ function iniciarMap() {
   })
   button.addEventListener("click", () => {
     llamarMapa()
-    setTimeout(() => {
-      google.maps.event.addListener(map, 'bounds_changed', obtenerCoordenadasIniciales);
-    }, 3000);
-    
+    google.maps.event.addListener(map, 'bounds_changed', obtenerCoordenadasIniciales);
   });
 
 
@@ -316,10 +314,10 @@ function obtenerCoordenadasIniciales() {
   var NW = new google.maps.LatLng(NE.lat(), SW.lng());
   var SE = new google.maps.LatLng(SW.lat(), NE.lng());
 
-  var strHTML = "North East: " + NE.lat() + ", " + NE.lng() + "</br>";
-  strHTML += "South West: " + SW.lat() + ", " + SW.lng() + "</br>";
-  strHTML += "North West: " + NW.lat() + ", " + NW.lng() + "</br>";
-  strHTML += "South East: " + SE.lat() + ", " + SE.lng() + "</br>";
+  // var strHTML = "North East: " + NE.lat() + ", " + NE.lng() + "</br>";
+  // strHTML += "South West: " + SW.lat() + ", " + SW.lng() + "</br>";
+  // strHTML += "North West: " + NW.lat() + ", " + NW.lng() + "</br>";
+  // strHTML += "South East: " + SE.lat() + ", " + SE.lng() + "</br>";
 
   // Ocultar todas las tarjetas
   const tarjetas = document.querySelectorAll(".card");
@@ -343,14 +341,15 @@ function obtenerCoordenadasIniciales() {
   if (markersDentro.length > 0) {
     strHTML += "Marcadores dentro de las coordenadas:</br>";
     for (var i = 0; i < markersDentro.length; i++) {
-      var marker = markersDentro[i];
-      strHTML += "Marker " + (i + 1) + ": Latitud " + marker.getPosition().lat() + ", Longitud " + marker.getPosition().lng() + "</br>";
+       var marker = markersDentro[i];
+      // strHTML += "Marker " + (i + 1) + ": Latitud " + marker.getPosition().lat() + ", Longitud " + marker.getPosition().lng() + "</br>";
     }
   } else {
-    strHTML += "No hay marcadores dentro de las coordenadas.</br>";
-    noresultado('No hay resultados en esta zona')
+    // strHTML += "No hay marcadores dentro de las coordenadas.</br>";
+    // noresultado('No hay resultados en esta zona')
+    // return;
   }
 
-  document.getElementById("info").innerHTML = strHTML;
+  // document.getElementById("info").innerHTML = strHTML;
 }
 

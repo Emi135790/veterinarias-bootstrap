@@ -2,11 +2,9 @@
 const estado = document.querySelector("#estado");
 const servicio = document.querySelector("#servicio");
 const texto = document.querySelector("#texto");
-const reesultado = document.querySelector("#cartas");
-const prueba = document.querySelectorAll('.form-check-input')
+const resultado = document.querySelector("#cartas");
 let input = document.getElementById('search-input')
-const aplicar = document.querySelector('#aplicar')
-
+const bontonubicacio  = document.querySelector('#actualizar-perimetro-btn')
 //event listener
 estado.addEventListener("change", (e) => {
   datosBusqueda.estado = e.target.value;
@@ -22,29 +20,50 @@ texto.addEventListener("change", (e) => {
 
   filtarvet();
 });
-aplicar.addEventListener("click", function () {
-  prueba.forEach((e)=>{
-    if(e.checked == true){
-      console.log(e.value)
-    }
-  })
 
- 
-})
 
+const marcadoresArray = [];
+
+function addMarker(veterinarias, map) {
+  // ...
+  let iconoPersonalizado = {
+    url: "./img/iconlocation.png",
+    scaledSize: new google.maps.Size(30, 40), // Tamaño del ícono
+  };
+
+  veterinarias.forEach((veterinaria) => {
+    // ...
+
+    const id = veterinaria.id;
+
+    let marker = new google.maps.Marker({
+      position: veterinaria.coord,
+      map: map,
+      icon: iconoPersonalizado,
+      optimized: true,
+    });
+
+    // Almacenar el marcador en el arreglo marcadoresArray
+    marcadoresArray.push({ id: id, marker: marker });
+
+    // ...
+  });
+}
+const marcadores = {};
 //gnerar un objero con la bsqueda
 const datosBusqueda = {
   texto: "",
   estado: "",
   servicio: "",
   input: "",
-  prueba:'',
 };
 var map;
 var coord1, coord2, coord3, coord4, coord5;
 // funciones
 function mostrarveterinarias(veterinarias) {
+  
   limpiarHtml(); //elimina el html previo
+  let marker;
   const tarjetas = document.createElement("div");
   tarjetas.classList.add("cont-cartas");
   veterinarias.forEach((vet) => {
@@ -53,7 +72,7 @@ function mostrarveterinarias(veterinarias) {
     const tarjeta = document.createElement("DIV");
     tarjeta.classList.add("card");
     tarjeta.setAttribute("id", id);
-
+    
     // cuerpo de tarjeta
     const cuerpo = document.createElement("div");
     cuerpo.classList.add("card-body");
@@ -63,7 +82,7 @@ function mostrarveterinarias(veterinarias) {
     const img = document.createElement("img");
     img.setAttribute("src", imagen);
     img.classList.add("card-img-top");
-
+   
     const tituloHTML = document.createElement("p");
     tituloHTML.textContent = `
         ${titulo}
@@ -84,7 +103,7 @@ function mostrarveterinarias(veterinarias) {
     esta.textContent = `
             ${estado}
         `;
-
+    
     const boton = document.createElement("a");
     boton.classList.add("btn", "btn-primary");
     boton.setAttribute("id", id);
@@ -102,30 +121,46 @@ function mostrarveterinarias(veterinarias) {
     tarjeta.appendChild(cuerpo);
     tarjetas.appendChild(tarjeta);
 
-    reesultado.appendChild(tarjetas);
+    resultado.appendChild(tarjetas);
 
+    marcadores[id] = marker;
+
+  });
+
+}
+function listenerCards(veterinarias) {
+  document.querySelectorAll(".card").forEach((tarjeta, index) => {
+    tarjeta.addEventListener("click", () => {
+      map.panTo(veterinarias[index].coord);
+    });
   });
 }
 
+
 function limpiarHtml() {
-  while (reesultado.firstChild) {
-    reesultado.removeChild(reesultado.firstChild);
+  while (resultado.firstChild) {
+    resultado.removeChild(resultado.firstChild);
   }
 }
+let resultadoFiltrado = [];
 function filtarvet() {
-  const resultado = veterinarias
+
+  const resultadoFiltrado = veterinarias
   
     .filter(filtrarestado)
     .filter(filtrarservicio)
     .filter(filtrarcolonia)
     .filter(filtrarInput)
-
-  if (resultado.length) {
-    mostrarveterinarias(resultado);
-  } else {
-    noresultado('No hay resultados');
-  }
+    if (resultadoFiltrado.length) {
+      mostrarveterinarias(resultadoFiltrado);
+      ocultarMarcadoresNoVisibles(resultadoFiltrado);
+      listenerCards(resultadoFiltrado);
+    } else {
+      noresultado('No hay resultados');
+    }
 }
+
+
 function noresultado(mensaje, tipo) {
   limpiarHtml();
   const noresultado = document.createElement("DIV");
@@ -138,7 +173,7 @@ function noresultado(mensaje, tipo) {
     noresultado.classList.add("alert", "alert-warning", "text-center", 'm-3');
     noresultado.classList.remove('alert-danger')
   }
-  reesultado.appendChild(noresultado);
+  resultado.appendChild(noresultado);
 }
 
 
@@ -159,15 +194,7 @@ function filtrarservicio(vet) {
 
   return vet;
 }
-function filtrocheck(vet){
-  const { prueba } = datosBusqueda;
 
-  if (prueba) {
-    return vet.prueba === prueba;
-  }
-
-  return vet;
-}
 function filtrarcolonia(vet) {
   const { texto } = datosBusqueda;
   if (texto) {
@@ -185,16 +212,9 @@ function filtrarInput(vet) {
 
   return vet;
 }
-
-const listenerCards = (veterinarias) => {
-  document.querySelectorAll(".card").forEach((tarjeta, index) => {
-    tarjeta.addEventListener("click", () => {
-      map.panTo(veterinarias[index].coord)
-    })
-    // tarjeta.addEventListener("click", () => map.panTo(veterinarias[index].coord));
-
-  });
-};
+bontonubicacio.addEventListener('click',() =>{
+  ocultarMarcadoresNoVisibles(resultadoFiltrado);
+})
 
 function iniciarMap() {
   noresultado('Agrega tu ubicacion...', 'inicio')
@@ -220,14 +240,25 @@ function iniciarMap() {
   // const btn = document.querySelector('#btn')
 
   autocomplete.addListener('place_changed', () => {
+    
     llamarporubicacion();
     let place = autocomplete.getPlace()
     map.setCenter(place.geometry.location);
     map.setZoom(13);
+    setTimeout(() => {
+      google.maps.event.addListener(map, 'bounds_changed', obtenerCoordenadasIniciales);
+    }, 3000);
   })
   button.addEventListener("click", () => {
     llamarMapa()
+    setTimeout(() => {
+      google.maps.event.addListener(map, 'bounds_changed', obtenerCoordenadasIniciales);
+    }, 3000);
+    
   });
+
+
+
 }
 
 function llamarMapa() {
@@ -261,23 +292,64 @@ function llamarporubicacion() {
     listenerCards(veterinarias);
   }, 2000);
 }
-const addMarker = (veterinarias, map) => {
-  let iconoPersonalizado = {
-    url: "./img/iconlocation.png",
-    scaledSize: new google.maps.Size(30, 40), // Tamaño del ícono
-  };
-  veterinarias.forEach((veterinaria) => {
-    let marker = new google.maps.Marker({
-      position: veterinaria.coord,
-      map: map,
-      icon: iconoPersonalizado,
-      optimized: true,
-      
-    });
-    google.maps.event.addListener(marker, 'click', function () {
-      alert(veterinaria.titulo)
-    })
 
-
+function ocultarMarcadoresNoVisibles(veterinariasFiltradas) {
+  // Ocultar todos los marcadores
+  marcadoresArray.forEach((item) => {
+    item.marker.setMap(null);
   });
-};
+
+  // Mostrar los marcadores de las veterinarias filtradas
+  veterinariasFiltradas.forEach((vet) => {
+    const id = vet.id;
+    const marcador = marcadoresArray.find((item) => item.id === id);
+    if (marcador) {
+      marcador.marker.setMap(map);
+    }
+  });
+}
+
+function obtenerCoordenadasIniciales() {
+  var bounds = map.getBounds();
+  var NE = bounds.getNorthEast();
+  var SW = bounds.getSouthWest();
+  var NW = new google.maps.LatLng(NE.lat(), SW.lng());
+  var SE = new google.maps.LatLng(SW.lat(), NE.lng());
+
+  var strHTML = "North East: " + NE.lat() + ", " + NE.lng() + "</br>";
+  strHTML += "South West: " + SW.lat() + ", " + SW.lng() + "</br>";
+  strHTML += "North West: " + NW.lat() + ", " + NW.lng() + "</br>";
+  strHTML += "South East: " + SE.lat() + ", " + SE.lng() + "</br>";
+
+  // Ocultar todas las tarjetas
+  const tarjetas = document.querySelectorAll(".card");
+  tarjetas.forEach((tarjeta) => {
+    tarjeta.style.display = "none";
+  });
+
+  // Verificar si hay marcadores dentro de las coordenadas
+  var markersDentro = [];
+  for (var i = 0; i < marcadoresArray.length; i++) {
+    var marker = marcadoresArray[i].marker;
+    var markerPosition = marker.getPosition();
+    if (bounds.contains(markerPosition)) {
+      markersDentro.push(marker);
+      const tarjeta = document.getElementById(marcadoresArray[i].id);
+      tarjeta.style.display = "block";
+    }
+  }
+
+  // Imprimir información de los marcadores encontrados
+  if (markersDentro.length > 0) {
+    strHTML += "Marcadores dentro de las coordenadas:</br>";
+    for (var i = 0; i < markersDentro.length; i++) {
+      var marker = markersDentro[i];
+      strHTML += "Marker " + (i + 1) + ": Latitud " + marker.getPosition().lat() + ", Longitud " + marker.getPosition().lng() + "</br>";
+    }
+  } else {
+    strHTML += "No hay marcadores dentro de las coordenadas.</br>";
+  }
+
+  document.getElementById("info").innerHTML = strHTML;
+}
+

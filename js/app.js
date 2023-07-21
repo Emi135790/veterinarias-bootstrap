@@ -4,11 +4,11 @@ const servicio = document.querySelector("#servicio");
 const texto = document.querySelector("#texto");
 const resultado = document.querySelector("#cartas");
 let input = document.getElementById('search-input')
-const bontonubicacio  = document.querySelector('#actualizar-perimetro-btn')
+const bontonubicacio = document.querySelector('#actualizar-perimetro-btn')
+
 //event listener
 estado.addEventListener("change", (e) => {
   datosBusqueda.estado = e.target.value;
-
   filtarvet();
 });
 servicio.addEventListener("change", (e) => {
@@ -17,23 +17,17 @@ servicio.addEventListener("change", (e) => {
 });
 texto.addEventListener("change", (e) => {
   datosBusqueda.texto = e.target.value;
-
   filtarvet();
 });
 
 
 const marcadoresArray = [];
-
 function addMarker(veterinarias, map) {
-  // ...
   let iconoPersonalizado = {
     url: "./img/iconlocation.png",
     scaledSize: new google.maps.Size(30, 40), // Tamaño del ícono
   };
-
   veterinarias.forEach((veterinaria) => {
-    // ...
-
     const id = veterinaria.id;
 
     let marker = new google.maps.Marker({
@@ -42,11 +36,7 @@ function addMarker(veterinarias, map) {
       icon: iconoPersonalizado,
       optimized: true,
     });
-
-    // Almacenar el marcador en el arreglo marcadoresArray
     marcadoresArray.push({ id: id, marker: marker });
-
-    // ...
   });
 }
 const marcadores = {};
@@ -58,21 +48,22 @@ const datosBusqueda = {
   input: "",
 };
 var map;
-var coord1, coord2, coord3, coord4, coord5;
+// var coord1, coord2, coord3, coord4, coord5;
 // funciones
 function mostrarveterinarias(veterinarias) {
-  
+
   limpiarHtml(); //elimina el html previo
   let marker;
   const tarjetas = document.createElement("div");
   tarjetas.classList.add("cont-cartas");
+  
   veterinarias.forEach((vet) => {
     const { titulo, texto, imagen, enlace, servicio, estado, id } = vet;
 
     const tarjeta = document.createElement("DIV");
     tarjeta.classList.add("card");
     tarjeta.setAttribute("id", id);
-    
+
     // cuerpo de tarjeta
     const cuerpo = document.createElement("div");
     cuerpo.classList.add("card-body");
@@ -82,7 +73,7 @@ function mostrarveterinarias(veterinarias) {
     const img = document.createElement("img");
     img.setAttribute("src", imagen);
     img.classList.add("card-img-top");
-   
+
     const tituloHTML = document.createElement("p");
     tituloHTML.textContent = `
         ${titulo}
@@ -103,7 +94,7 @@ function mostrarveterinarias(veterinarias) {
     esta.textContent = `
             ${estado}
         `;
-    
+
     const boton = document.createElement("a");
     boton.classList.add("btn", "btn-primary");
     boton.setAttribute("id", id);
@@ -144,20 +135,18 @@ function limpiarHtml() {
 }
 let resultadoFiltrado = [];
 function filtarvet() {
-
   const resultadoFiltrado = veterinarias
-  
     .filter(filtrarestado)
     .filter(filtrarservicio)
     .filter(filtrarcolonia)
     .filter(filtrarInput)
-    if (resultadoFiltrado.length) {
-      mostrarveterinarias(resultadoFiltrado);
-      ocultarMarcadoresNoVisibles(resultadoFiltrado);
-      listenerCards(resultadoFiltrado);
-    } else {
-      noresultado('No hay resultados');
-    }
+  if (resultadoFiltrado.length) {
+    mostrarveterinarias(resultadoFiltrado);
+    ocultarMarcadoresNoVisibles(resultadoFiltrado);
+    listenerCards(resultadoFiltrado);
+  } else {
+    noresultado('No hay resultados');
+  }
 }
 
 
@@ -176,7 +165,6 @@ function noresultado(mensaje, tipo) {
   resultado.appendChild(noresultado);
 }
 
-
 function filtrarestado(vet) {
   const { estado } = datosBusqueda;
   if (estado) {
@@ -184,38 +172,28 @@ function filtrarestado(vet) {
   }
   return vet;
 }
-
 function filtrarservicio(vet) {
   const { servicio } = datosBusqueda;
-
   if (servicio) {
     return vet.servicio === servicio;
   }
-
   return vet;
 }
-
 function filtrarcolonia(vet) {
   const { texto } = datosBusqueda;
   if (texto) {
     return vet.texto === texto;
   }
-
   return vet;
 }
-
 function filtrarInput(vet) {
   const { input } = datosBusqueda;
   if (input) {
     return vet.texto.toLowerCase().includes(input.toLowerCase());
   }
-
   return vet;
 }
-bontonubicacio.addEventListener('click',() =>{
-  llamarporubicacion();
-  google.maps.event.addListener(map, 'bounds_changed', obtenerCoordenadasIniciales);
-})
+
 
 function iniciarMap() {
   noresultado('Agrega tu ubicacion...', 'inicio')
@@ -228,36 +206,34 @@ function iniciarMap() {
         featureType: "poi.business",
         stylers: [{ visibility: "off" }], // Oculta los negocios locales
       },
-
     ],
   });
   let options = {
     types: ['(cities)'],
-    componentRestrictions: { country: ['mx']}
+    componentRestrictions: { country: ['mx'] }
   }
   let autocomplete = new google.maps.places.Autocomplete(input, options)
   autocomplete.bindTo('bounds', map)
-
-  // const btn = document.querySelector('#btn')
-
   autocomplete.addListener('place_changed', () => {
-    
     llamarporubicacion();
     let place = autocomplete.getPlace()
     map.setCenter(place.geometry.location);
     map.setZoom(13);
-    setTimeout(() => {
-      google.maps.event.addListener(map, 'bounds_changed', obtenerCoordenadasIniciales);
-    }, 3000);
+    google.maps.event.addListener(map, 'bounds_changed', obtenerCoordenadasIniciales);
+  })
+  bontonubicacio.addEventListener('click', () => {
+    llamarporubicacion();
+    google.maps.event.addListener(map, 'bounds_changed', obtenerCoordenadasIniciales);
   })
   button.addEventListener("click", () => {
     llamarMapa()
     google.maps.event.addListener(map, 'bounds_changed', obtenerCoordenadasIniciales);
   });
-
-
-
 }
+
+
+
+
 
 function llamarMapa() {
   if (navigator.geolocation) {
@@ -334,14 +310,15 @@ function obtenerCoordenadasIniciales() {
       markersDentro.push(marker);
       const tarjeta = document.getElementById(marcadoresArray[i].id);
       tarjeta.style.display = "block";
+
     }
   }
 
   // Imprimir información de los marcadores encontrados
   if (markersDentro.length > 0) {
-    strHTML += "Marcadores dentro de las coordenadas:</br>";
+    // strHTML += "Marcadores dentro de las coordenadas:</br>";
     for (var i = 0; i < markersDentro.length; i++) {
-       var marker = markersDentro[i];
+      var marker = markersDentro[i];
       // strHTML += "Marker " + (i + 1) + ": Latitud " + marker.getPosition().lat() + ", Longitud " + marker.getPosition().lng() + "</br>";
     }
   } else {
@@ -352,4 +329,25 @@ function obtenerCoordenadasIniciales() {
 
   // document.getElementById("info").innerHTML = strHTML;
 }
+const conntCartas = document.querySelector("#cartas")
+const ocultarCartas = document.querySelector('#ocultar')
+const maps = document.querySelector('#map')
 
+ocultarCartas.addEventListener('click', mostrarocultarcards)
+
+class mostrarocultarcards {
+  constructor() {
+    if (conntCartas.classList.contains('ocultar')) {
+      conntCartas.classList.remove('ocultar');
+      maps.classList.add('map');
+      maps.classList.remove('map-class');
+      this.textContent = 'Ocultar Veterinarias';
+    } else {
+      conntCartas.classList.add('ocultar');
+      this.textContent = 'Mostrar Veterinarias';
+      maps.classList.remove('map');
+      maps.classList.add('map-class');
+    }
+
+  }
+}

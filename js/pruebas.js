@@ -1,28 +1,22 @@
+{/* <script type="module"> */}
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
-function init(){
-// let input = document.getElementById('search-input')
-let map = new google.maps.Map(document.getElementById('map'),{
-    zoom:4,
-    center: { lat: 19.432241, lng: -99.177254 },
-    scrollwheel: true,
-});
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyAHCbymXmVqJVk4IcRysBIcgkwR6i8S-Mk",
+    authDomain: "veterinarias-d976a.firebaseapp.com",
+    projectId: "veterinarias-d976a",
+    storageBucket: "veterinarias-d976a.appspot.com",
+    messagingSenderId: "255153342817",
+    appId: "1:255153342817:web:036101e4c7af603e5f9d20",
+    measurementId: "G-67SLFNGFTR"
+  };
 
-}
-
-google.maps.event.addListener(map, 'bounds_changed',function(){
-    var bounds = map.getBounds();
-    var NE = bounds.getNorthEast();
-    var SW = bounds.getSouthWest();
-
-    var strHTML = "North East: " + NE.lat() + ", " + NE.lng() + "</br>";
-    strHTML += "south est " + SW.lat() + ", " + SW.lng() + "</br>";
-    document.getElementById("info").innerHTML = strHTML;
-})
-
-
-var bounds = new google.maps.LatLngBounds ();
-for (var i=0;i<locations.length;i++ ){
-    var marker = new google.maps.Marker({position:locations[i].latlng, map:map,title:locations[i].name})
-    bounds.extend(locations[i].latlng)
-}
-map.fitBounds (bounds)
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);

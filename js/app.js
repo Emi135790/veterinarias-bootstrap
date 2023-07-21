@@ -221,10 +221,7 @@ function iniciarMap() {
     map.setZoom(13);
     google.maps.event.addListener(map, 'bounds_changed', obtenerCoordenadasIniciales);
   })
-  bontonubicacio.addEventListener('click', () => {
-    llamarporubicacion();
-    google.maps.event.addListener(map, 'bounds_changed', obtenerCoordenadasIniciales);
-  })
+
   button.addEventListener("click", () => {
     llamarMapa()
     google.maps.event.addListener(map, 'bounds_changed', obtenerCoordenadasIniciales);

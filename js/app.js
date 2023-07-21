@@ -335,19 +335,18 @@ const maps = document.querySelector('#map')
 
 ocultarCartas.addEventListener('click', mostrarocultarcards)
 
-class mostrarocultarcards {
-  constructor() {
-    if (conntCartas.classList.contains('ocultar')) {
-      conntCartas.classList.remove('ocultar');
-      maps.classList.add('map');
-      maps.classList.remove('map-class');
-      this.textContent = 'Ocultar Veterinarias';
-    } else {
-      conntCartas.classList.add('ocultar');
-      this.textContent = 'Mostrar Veterinarias';
-      maps.classList.remove('map');
-      maps.classList.add('map-class');
-    }
 
+ function mostrarocultarcards(){
+  if (conntCartas.classList.contains('ocultar')) {
+    conntCartas.classList.remove('ocultar');
+    maps.classList.add('map');
+    maps.classList.remove('map-class');
+    this.textContent = 'Ocultar Veterinarias';
+  } else {
+    conntCartas.classList.add('ocultar');
+    this.textContent = 'Mostrar Veterinarias';
+    maps.classList.remove('map');
+    maps.classList.add('map-class');
   }
-}
+
+ }

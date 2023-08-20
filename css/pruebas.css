@@ -1,53 +1,214 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/****************** Custom Propeties ******************/
+:root {
+    --first-color: rgb(217, 0, 98);
+    --second-color:rgb(54,143,239)
+;}
+
+/****************** Reset Styles     ******************/
+body {
+    font-family: 'Roboto Condensed', sans-serif;
+
 }
-body{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 1rem;
-}
-.wrapper{
-    display: flex;
-    grid-gap:1rem;
-    max-width: 100%;
+.fondo1{
+    background-image:linear-gradient(-45deg, #efe4da 0%, #358399 100%);
+    background-repeat: no-repeat;
     width: 100%;
-    overflow-x:auto ;
-    scroll-snap-type:x;
-    cursor: grab;
+    height: 100vh;
+}
+.fondo{
+    background-image:linear-gradient(-45deg, #efe4da 0%, #358399 100%);
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100vh;
+}
+li{
+    list-style: none;
+}
+
+/****************** Boostrap Styles  ******************/
+.nav-item {
+    background-color:white;
+    color: white;
+    font-weight: bold;
+    transition: all .3s ease-out;
+
+}
+
+.nav-link {
+    background-color:transparent;
+    padding-left: .5rem;
+    color: black;
+    font-size: 1.35rem;
+    font-weight: bold;
+}
+.nav-link:hover {
+    color: var(--second-color);
+}
+.top-10{
+    position: relative;
+    top: 5.3rem;
+}
+.start-10{
+    position: relative;
+    left: 12rem;
+}
+
+/******************    My styles     ******************/
+.bg-first-color{
+    background-color: var(--second-color);
+}
+.navbar-brand img {
+    width: auto;
+    height: 4rem;
+}
+.move{
+    animation: move-vector 4s linear infinite;
+}
+@keyframes move-vector{
+	0%{
+		transform: translateY(20px);
+
+	}50%{
+		transform: translateY(0px);
+	}100%{
+		transform: translateY(20px);
+	}
+}
+.min-vh-70 {
+    min-height: 70vh !important;
+  }
+.cat{
+    width:8rem;
+}
+
+
+.cont{
+    display: flex;
+    margin: 0%;
+    padding: 0%;
+}
+.cont .map{ 
+    width:100%;
+    height:89.5vh;
+}
+ 
+.cartas{
+    width: 100%;
+    max-width: 15%;
+    height: 570px;
+    overflow-y:auto ;
+    scroll-snap-type:y;
     scroll-behavior: smooth;
 }
-.slider{
-    min-width:calc(25% - .5rem) ;
-    height: 300px;
-    background-color: #222;
+.cont-cartas{
     display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    font-size: 2rem;
-    scroll-snap-align: start;
-    user-select: none;
+    flex-direction: column;
 }
+.ocultar{
+    position: absolute;
+    left: -100%;
+    transition:2s;
+}
+.card{
+    max-width: 240px;
+    width: 100%;
+    min-height:calc(300px - .5rem) ;
+    scroll-snap-align: start;
+}
+.card-img-top{
+    width: 100%;
+    height:150px;
+}
+/* // X-Small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576px and up) */
+@media (max-width: 576px) {
+
+}
+
+/* // Medium devices (tablets, 768px and up) */
+
+
+/* // Large devices (desktops, 992px and up) */
 @media (max-width: 992px) {
-    .slider{
-        min-width:calc(50% - .5rem) ;
+
+    .nav-link:hover {
+        color: var(--second-color);
     }
+
+    .cont{
+        display: block;
+    }
+    .cont-cartas{
+        display: flex;
+        flex-direction: row;
+        grid-gap: 1rem;
+    }
+    .cartas{
+        width: 100%;
+        max-width:100%;
+        height: 270px;
+        overflow-x:auto ;
+        scroll-snap-type:x;
+        scroll-behavior: smooth;
+        position: absolute;
+        top:66%;
+    }
+    .card{
+        min-width:calc(50% - .5rem) ;
+        scroll-snap-align: start;
+    }
+    .alert{
+        position:relative;
+        top: 70%;
+        margin: 0%;
+    }
+    .top-10{
+        position: relative;
+        top: 4.3rem;
+    }
+
 }
 @media (max-width: 768px) {
-    .wrapper{
-        grid-gap:1rem;
-    }
-    .slider{
-        min-width:calc(65% - 0rem) ;
+    .nav-item:hover {
+        background-color: var(--second-color);
     }
 }
+@media (max-width: 576px) {
+    .cont .map{ 
+        width:100%;
+        height:93vh;
+    }
+    .map-class{
+        width:100%;
+        height:74vh;
+    } 
+    .card{
+        min-width:calc(120% - 10rem) ;
+        scroll-snap-align: start;
+        user-select: none;
+    }
+    .navbar-brand img {
+        width: auto;
+        height: 3rem;
+    }
+    
+}
+@media (min-width: 576px) {
+    .container-lg{
+        width: 700px;
+    }
+
+}
+
 
 /* // X-Large devices (large desktops, 1200px and up) */
-@media (max-width: 1200px) {}
+@media (min-width: 1200px) {
+    
+}
 
 /* // XX-Large devices (larger desktops, 1400px and up) */
-@media (max-width: 1400px) {}
+@media (min-width: 1400px) {
+    
+}

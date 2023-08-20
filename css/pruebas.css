@@ -157,7 +157,7 @@ li{
         scroll-snap-type:x;
         scroll-behavior: smooth;
         position: absolute;
-        top:66%;
+        top:61%;
     }
     .card{
         min-width:calc(50% - .5rem) ;
@@ -177,6 +177,9 @@ li{
 @media (max-width: 768px) {
     .nav-item:hover {
         background-color: var(--second-color);
+    }
+    .cartas{
+        top:66%;
     }
 }
 @media (max-width: 576px) {

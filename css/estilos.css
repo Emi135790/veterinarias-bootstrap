@@ -178,7 +178,7 @@ li{
         background-color: var(--second-color);
     }
     .cartas{
-        top:65%;
+        top:66%;
     }
 }
 @media (max-width: 576px) {

@@ -342,7 +342,6 @@ ocultarCartas.addEventListener('click', mostrarocultarcards)
   } else {
     conntCartas.classList.add('ocultar');
     this.textContent = 'Mostrar Veterinarias';
-    maps.classList.remove('map');
     maps.classList.add('map-class');
   }
 

@@ -19,6 +19,7 @@ body {
     background-image:linear-gradient(-45deg, #efe4da 0%, #358399 100%);
     background-repeat: no-repeat;
     width: 100%;
+    height: 100vh;
 }
 li{
     list-style: none;
@@ -43,7 +44,14 @@ li{
 .nav-link:hover {
     color: var(--second-color);
 }
-
+.top-10{
+    position: relative;
+    top: 5.3rem;
+}
+.start-10{
+    position: relative;
+    left: 12rem;
+}
 
 /******************    My styles     ******************/
 .bg-first-color{
@@ -52,7 +60,6 @@ li{
 .navbar-brand img {
     width: auto;
     height: 4rem;
-
 }
 .move{
     animation: move-vector 4s linear infinite;
@@ -77,16 +84,19 @@ li{
 
 .cont{
     display: flex;
+    margin: 0%;
+    padding: 0%;
 }
 .cont .map{ 
+    max-width: 100%;
     width:100%;
-    height:570px;
+    height:89.5vh;
 }
  
 .cartas{
     width: 100%;
-    max-width: 15%;
-    height: 570px;
+    max-width:15%;
+    height:89.5vh;
     overflow-y:auto ;
     scroll-snap-type:y;
     scroll-behavior: smooth;
@@ -110,11 +120,14 @@ li{
     width: 100%;
     height:150px;
 }
+.size-search{
+    width: 75%;
+    max-width: 100%;
+}
 /* // X-Small devices (portrait phones, less than 576px)
 // No media query for `xs` since this is the default in Bootstrap
 
 // Small devices (landscape phones, 576px and up) */
-@media (min-width: 576px) {}
 
 /* // Medium devices (tablets, 768px and up) */
 
@@ -137,26 +150,41 @@ li{
     .cartas{
         width: 100%;
         max-width:100%;
-        height: 310px;
+        height: 270px;
         overflow-x:auto ;
         scroll-snap-type:x;
         scroll-behavior: smooth;
+        position: absolute;
+        top:61%;
     }
     .card{
         min-width:calc(50% - .5rem) ;
         scroll-snap-align: start;
     }
+    .alert{
+        position:relative;
+        top: 70%;
+        margin: 0%;
+    }
+    .top-10{
+        position: relative;
+        top: 4.3rem;
+    }
+
 
 }
 @media (max-width: 768px) {
     .nav-item:hover {
         background-color: var(--second-color);
     }
+    .cartas{
+        top:66%;
+    }
 }
 @media (max-width: 576px) {
     .cont .map{ 
         width:100%;
-        height:450px;
+        height:93vh;
     }
     .map-class{
         width:100%;
@@ -164,8 +192,13 @@ li{
     } 
     .card{
         min-width:calc(120% - 10rem) ;
+        min-height:calc(300px - .5rem) ;
         scroll-snap-align: start;
         user-select: none;
+    }
+    .navbar-brand img {
+        width: auto;
+        height: 3rem;
     }
     
 }
@@ -173,7 +206,7 @@ li{
     .container-lg{
         width: 700px;
     }
-    
+
 }
 
 

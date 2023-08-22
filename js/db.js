@@ -85,7 +85,7 @@ const veterinarias = [
     servicio: "domicilio",
     estado: "abierto",
     ciudad:'guadalajara',
-    coord: { lat:19.3906594, lng:-99.3084257 },
-  },
-
+    coord: { lat:20.688695277212812, lng:-103.4084488267225
+    },
+  }, 
 ];

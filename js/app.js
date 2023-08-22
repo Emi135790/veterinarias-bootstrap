@@ -313,18 +313,9 @@ function obtenerCoordenadasIniciales() {
 
   // Imprimir información de los marcadores encontrados
   if (markersDentro.length > 0) {
-    // strHTML += "Marcadores dentro de las coordenadas:</br>";
-    for (var i = 0; i < markersDentro.length; i++) {
-      var marker = markersDentro[i];
-      // strHTML += "Marker " + (i + 1) + ": Latitud " + marker.getPosition().lat() + ", Longitud " + marker.getPosition().lng() + "</br>";
-    }
-  } else {
-    // strHTML += "No hay marcadores dentro de las coordenadas.</br>";
-    // noresultado('No hay resultados en esta zona')
-    // return;
+      for (var i = 0; i < markersDentro.length; i++) {
+      var marker = markersDentro[i];}
   }
-
-  // document.getElementById("info").innerHTML = strHTML;
 }
 const conntCartas = document.querySelector("#cartas")
 const ocultarCartas = document.querySelector('#ocultar')

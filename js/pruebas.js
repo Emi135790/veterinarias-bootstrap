@@ -20,9 +20,21 @@ texto.addEventListener("change", (e) => {
   filtarvet();
 });
 
-
 const marcadoresArray = [];
-function addMarker(veterinarias, map) {
+const marcadores = {};
+
+//gnerar un objero con la bsqueda
+const datosBusqueda = {
+  texto: "",
+  estado: "",
+  servicio: "",
+  input: "",
+};
+var map;
+// var coord1, coord2, coord3, coord4, coord5;
+// funciones
+
+function addMarker( map ,veterinarias) {
   let iconoPersonalizado = {
     url: "./img/iconlocation.png",
     scaledSize: new google.maps.Size(30, 40), // Tamaño del ícono
@@ -39,29 +51,26 @@ function addMarker(veterinarias, map) {
     marcadoresArray.push({ id: id, marker: marker });
   });
 }
-const marcadores = {};
-//gnerar un objero con la bsqueda
-const datosBusqueda = {
-  texto: "",
-  estado: "",
-  servicio: "",
-  input: "",
-};
-var map;
-// var coord1, coord2, coord3, coord4, coord5;
-// funciones
-function mostrarveterinarias(veterinarias) {
+function cargarVeterinarias() {
+    fetch('js/db.json')
+    .then(response => response.json())
+    .then(data => data.veterinarias);
+}
 
-  limpiarHtml(); //elimina el html previo
+
+function mostrarveterinarias(veterinarias = []) { 
+
+  limpiarHtml()
   let marker;
   const tarjetas = document.createElement("div");
-  tarjetas.classList.add("swiper-wrapper");
-  
-  veterinarias.forEach((vet) => {
-    const { titulo, texto, imagen, enlace, servicio, estado, id } = vet;
+  tarjetas.classList.add("cont-cartas");
+  veterinarias.forEach(vet => {
+    const { titulo, texto, imagen, enlace, id } = vet;
 
+
+    
     const tarjeta = document.createElement("DIV");
-    tarjeta.classList.add("swiper-slide");
+    tarjeta.classList.add("card");
     tarjeta.setAttribute("id", id);
 
     // cuerpo de tarjeta
@@ -71,35 +80,20 @@ function mostrarveterinarias(veterinarias) {
     const figure = document.createElement("div");
 
     const img = document.createElement("img");
-    img.setAttribute("src", imagen);
     img.classList.add("card-img-top");
+    img.src = imagen
 
     const tituloHTML = document.createElement("p");
-    tituloHTML.textContent = `
-        ${titulo}
-        `;
+    tituloHTML.textContent = titulo
 
     const colonia = document.createElement("p");
-    colonia.textContent = `
-            ${texto}
-        `;
-
-    const serv = document.createElement("p");
-    serv.classList.add("text-success");
-    serv.textContent = `
-            ${servicio}
-        `;
-
-    const esta = document.createElement("p");
-    esta.textContent = `
-            ${estado}
-        `;
+    colonia.textContent = texto
 
     const boton = document.createElement("a");
     boton.classList.add("btn", "btn-primary");
-    boton.setAttribute("id", id);
+    boton.id = id
     boton.setAttribute("href", enlace);
-    boton.innerText = "Visitar";
+    boton.textContent = "Visitar";
 
     //insertar en el html
     figure.appendChild(img);
@@ -226,6 +220,11 @@ function iniciarMap() {
     llamarMapa()
     google.maps.event.addListener(map, 'bounds_changed', obtenerCoordenadasIniciales);
   });
+  cargarVeterinarias().then(veterinarias => {
+    addMarker(veterinarias, map);
+    mostrarveterinarias(veterinarias);
+    listenerCards(veterinarias);
+  });
 }
 
 
@@ -257,11 +256,11 @@ function llamarMapa() {
   }
 }
 function llamarporubicacion() {
-  setTimeout(() => {
+  cargarVeterinarias().then(veterinarias => {
     addMarker(veterinarias, map);
     mostrarveterinarias(veterinarias);
     listenerCards(veterinarias);
-  }, 2000);
+  });
 }
 
 function ocultarMarcadoresNoVisibles(veterinariasFiltradas) {
@@ -313,8 +312,9 @@ function obtenerCoordenadasIniciales() {
 
   // Imprimir información de los marcadores encontrados
   if (markersDentro.length > 0) {
-      for (var i = 0; i < markersDentro.length; i++) {
-      var marker = markersDentro[i];}
+    for (var i = 0; i < markersDentro.length; i++) {
+      var marker = markersDentro[i];
+    }
   }
 }
 const conntCartas = document.querySelector("#cartas")
@@ -324,7 +324,7 @@ const maps = document.querySelector('#map')
 ocultarCartas.addEventListener('click', mostrarocultarcards)
 
 
- function mostrarocultarcards(){
+function mostrarocultarcards() {
   if (conntCartas.classList.contains('ocultar')) {
     conntCartas.classList.remove('ocultar');
     maps.classList.add('map');
@@ -336,4 +336,4 @@ ocultarCartas.addEventListener('click', mostrarocultarcards)
     maps.classList.add('map-class');
   }
 
- }
+}

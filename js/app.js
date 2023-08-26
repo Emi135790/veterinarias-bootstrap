@@ -50,6 +50,13 @@ const datosBusqueda = {
 var map;
 // var coord1, coord2, coord3, coord4, coord5;
 // funciones
+vetes()
+function vetes(){
+  fetch('js/pakage.json')
+  .then(respuesta => respuesta.json())
+  .then(resultado => console.log(resultado.veterinarias))
+}
+
 function mostrarveterinarias(veterinarias) {
 
   limpiarHtml(); //elimina el html previo

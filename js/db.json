@@ -1,0 +1,46 @@
+{
+    "veterinarias": [
+        {
+            "id": "vet1",
+            "titulo": "Veterinaria Pattas",
+            "texto": "L.D.Colosio",
+            "imagen": "../img/veterinarias/vete6.jpg",
+            "enlace": "",
+            "servicio": "domicilio",
+            "estado": "abierto",
+            "coord": {
+                "lat": 16.7940431,
+                "lng": -99.8029122
+            },
+            "veterinario": {
+                "Nommbre": "Daniel",
+                "Apellido": "Vergara",
+                "Edad": "35",
+                "Descripcion": "Titulado desde hace 10 Años",
+                "tipo_de_titulo": "Cedula PRofecional",
+                "foto": "../img/veterinarios/veterinario1.jpg"
+            }
+        },
+        {
+            "id": "vet2",
+            "titulo": "Veterinaria El bicho",
+            "texto": "L.D.Colosio",
+            "imagen": "../img/veterinarias/vete6.jpg",
+            "enlace": "",
+            "servicio": "domicilio",
+            "estado": "abierto",
+            "coord": {
+                "lat": 16.7940431,
+                "lng": -99.8029122
+            },
+            "veterinario": {
+                "Nommbre": "Daniel",
+                "Apellido": "Vergara",
+                "Edad": "35",
+                "Descripcion": "Titulado desde hace 10 Años",
+                "tipo_de_titulo": "Cedula PRofecional",
+                "foto": "../img/veterinarias/vete6.jpg"
+            }
+        }
+    ]
+}

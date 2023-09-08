@@ -7,11 +7,15 @@ const marcadoresArray = [];
 const marcadores = {};
 
 
+input.addEventListener("click", () => {
+  input.value = "";
+});
 
 function addMarker(map, veterinarias) {
+
   let iconoPersonalizado = {
-    url: "./img/iconlocation.png",
-    scaledSize: new google.maps.Size(30, 40), // Tamaño del ícono
+    url: "./img/ubicacion1.png",
+    scaledSize: new google.maps.Size(40, 50), // Tamaño del ícono
   };
   veterinarias.forEach((veterinaria) => {
     const id = veterinaria.id;
@@ -88,18 +92,36 @@ function mostrarveterinarias(veterinarias = []) {
     marcadores[id] = marker;
   });
 }
-function seleccionarVeterinaria(id){
-  const result = fetch("./js/db.json")
-    .then((response) => response.json())
-    .then((data) => (id));
-    
-  return result;
 
-}
 function listenerCards(veterinarias) {
+  let iconoResaltado = {
+    url: "./img/ubicacion2.png",
+    scaledSize: new google.maps.Size(50, 60), // Tamaño del ícono resaltado
+  };
+  let iconoPersonalizado = {
+    url: "./img/ubicacion1.png",
+    scaledSize: new google.maps.Size(40, 50), // Tamaño del ícono
+  };
+  
+
   document.querySelectorAll(".card").forEach((tarjeta, index) => {
     tarjeta.addEventListener("click", () => {
+      // Mueve el mapa a la ubicación de la veterinaria
       map.panTo(veterinarias[index].coord);
+
+      // Restaura el ícono de todos los marcadores a su estado original
+      marcadoresArray.forEach((marcador) => {
+        marcador.marker.setIcon(iconoPersonalizado);
+      });
+
+      // Cambia el ícono del marcador correspondiente
+      const idVeterinaria = veterinarias[index].id;
+      marcadoresArray.forEach((marcador) => {
+        if (marcador.id === idVeterinaria) {
+          marcador.marker.setIcon(iconoResaltado);
+          marcadorSeleccionado = marcador;
+        }
+      });
     });
   });
 }

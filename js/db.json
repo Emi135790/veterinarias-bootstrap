@@ -4,43 +4,79 @@
             "id": "vet1",
             "titulo": "Veterinaria Pattas",
             "texto": "L.D.Colosio",
-            "imagen": "../img/veterinarias/vete6.jpg",
+            "imagen": "../img/veterinarias/vete1.jpg",
             "enlace": "",
-            "servicio": "domicilio",
-            "estado": "abierto",
             "coord": {
                 "lat": 16.7940431,
                 "lng": -99.8029122
-            },
-            "veterinario": {
-                "Nommbre": "Daniel",
-                "Apellido": "Vergara",
-                "Edad": "35",
-                "Descripcion": "Titulado desde hace 10 Años",
-                "tipo_de_titulo": "Cedula PRofecional",
-                "foto": "../img/veterinarios/veterinario1.jpg"
             }
         },
         {
             "id": "vet2",
             "titulo": "Veterinaria El bicho",
-            "texto": "L.D.Colosio",
+            "texto": "Zapopan",
+            "imagen": "../img/veterinarias/vete2.jpg",
+            "enlace": "",
+            "coord": {
+                "lat": 16.80093680747825,
+                "lng":-99.80409096199409
+            }
+        },
+        {
+            "id": "vet3",
+            "titulo": "veterinaria Santa Luicia",
+            "texto":"Puerto Marqués, Gro., México",
+            "imagen": "../img/veterinarias/vete3.jpg",
+            "enlace": "",
+            "coord": {
+                "lat": 16.807644168779564,
+                "lng": -99.82223532793019 
+            }
+        },
+        {
+            "id": "vet4",
+            "titulo":"veterinaria ZooCare",
+            "texto":"Puerto Marqués, Gro., México",
+            "imagen": "../img/veterinarias/vete4.jpg",
+            "enlace": "",
+            "coord": {
+                "lat": 16.7997121,
+                "lng": -99.8066849
+            }
+        },
+        {
+            "id": "vet5",
+            "titulo":"veterinaria Pets",
+            "texto":"Puerto Marqués, Gro., México",
+            "imagen": "../img/veterinarias/vete5.jpg",
+            "enlace": "",
+            "coord": {
+                "lat":16.842807133531252,
+                "lng":-99.81245062952244
+            }
+        },
+        {
+            "id": "vet6",
+            "titulo":"veterinaria guadalajara",
+            "texto":"Zapopan, Jal., México",
             "imagen": "../img/veterinarias/vete6.jpg",
             "enlace": "",
-            "servicio": "domicilio",
-            "estado": "abierto",
             "coord": {
-                "lat": 16.7940431,
-                "lng": -99.8029122
-            },
-            "veterinario": {
-                "Nommbre": "Daniel",
-                "Apellido": "Vergara",
-                "Edad": "35",
-                "Descripcion": "Titulado desde hace 10 Años",
-                "tipo_de_titulo": "Cedula PRofecional",
-                "foto": "../img/veterinarias/vete6.jpg"
+                "lat":20.6737723, 
+                "lng":-103.4178151 
+            }
+        },
+        {
+            "id": "vet7",
+            "titulo":"Estetica Canina",
+            "texto":"Polanco, Polanco, 11560 Ciudad de México, CDMX",
+            "imagen": "../img/veterinarias/vete7.jpg",
+            "enlace": "",
+            "coord": {
+                "lat":19.3906594,
+                "lng":-99.3084259 
             }
         }
+
     ]
 }

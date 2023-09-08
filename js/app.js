@@ -6,7 +6,7 @@ var map;
 const marcadoresArray = [];
 const marcadores = {};
 
-
+const modal = new bootstrap.Modal('#modal', {});
 input.addEventListener("click", () => {
   input.value = "";
 });
@@ -281,23 +281,31 @@ function mostrarocultarcards() {
 }
 
 
+// function abrirModal(id) {
+//   const url = `./js/${id}db.json`; // Suponiendo que los archivos JSON tienen el mismo nombre que los IDs
+//   fetch(url)
+//     .then((respuesta) => respuesta.json())
+//     .then((resultado) => console.log(resultado))
+//     .catch((error) => console.error("Error al cargar el archivo JSON", error));
+// }
+
 function abrirModal(id) {
-  // Obtener la información de la carta por su id (puedes modificar esta parte según tu estructura de datos)
-  // const veterinaria = obtenerInformacionVeterinariaPorId(id);
+  const url = `./js/db.json`;
+  fetch(url)
+    .then((respuesta) => respuesta.json())
+    .then((data) => {
+      // Aquí puedes acceder a los datos del archivo JSON
+      const veterinaria = data.veterinarias.find((vet) => vet.id === id);
+      MostrarVeterinariasModal(veterinaria);
+    })
 
-  // // Actualizar el contenido del modal con la información de la carta
-  // const modalTitle = document.querySelector(".modal-title");
-  // modalTitle.textContent = veterinaria.titulo;
+}
 
-  // const modalContent = document.querySelector("#modal-content");
-  // modalContent.innerHTML = `
-  //   <img src="${veterinaria.imagen}" alt="${veterinaria.titulo}" class="img-fluid">
-  //   <p>${veterinaria.texto}</p>
-  //   <!-- Agrega aquí más campos de información si los tienes -->
-  // `;
 
-  // Abrir el modal
-  const myModal = new bootstrap.Modal(document.getElementById("myModal"));
-  myModal.show();
+function MostrarVeterinariasModal(veterinaria){
+  const {id, imagen, titulo, texto} = veterinaria
+  
+  const Modaltitulo = document.querySelector(".modal .modaltittle");
+  modal.show()
 }
 

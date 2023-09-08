@@ -65,17 +65,15 @@ function mostrarveterinarias(veterinarias = []) {
     colonia.textContent = texto;
 
     const boton = document.createElement("a");
-    boton.classList.add("btn", "btn-primary","cancel");
+    boton.classList.add("btn", "btn-primary", "cancel");
     boton.id = id;
     boton.setAttribute("href", enlace);
     boton.textContent = "Visitar";
-    // boton.dataset.bsTarget = "#modal"
-    // boton.dataset.bsToggle = "modal"
-    boton.onclick = function(e){
-      e.preventDefault()
-      seleccionarVeterinaria(id)
-      
-    }
+
+    boton.addEventListener("click", function(e) {
+      e.preventDefault();
+      abrirModal(id);
+    });
     //insertar en el html
     figure.appendChild(img);
     tarjeta.appendChild(figure);
@@ -281,3 +279,25 @@ function mostrarocultarcards() {
     maps.classList.add("map-class");
   }
 }
+
+
+function abrirModal(id) {
+  // Obtener la información de la carta por su id (puedes modificar esta parte según tu estructura de datos)
+  // const veterinaria = obtenerInformacionVeterinariaPorId(id);
+
+  // // Actualizar el contenido del modal con la información de la carta
+  // const modalTitle = document.querySelector(".modal-title");
+  // modalTitle.textContent = veterinaria.titulo;
+
+  // const modalContent = document.querySelector("#modal-content");
+  // modalContent.innerHTML = `
+  //   <img src="${veterinaria.imagen}" alt="${veterinaria.titulo}" class="img-fluid">
+  //   <p>${veterinaria.texto}</p>
+  //   <!-- Agrega aquí más campos de información si los tienes -->
+  // `;
+
+  // Abrir el modal
+  const myModal = new bootstrap.Modal(document.getElementById("myModal"));
+  myModal.show();
+}
+

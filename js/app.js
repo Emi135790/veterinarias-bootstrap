@@ -280,15 +280,6 @@ function mostrarocultarcards() {
   }
 }
 
-
-// function abrirModal(id) {
-//   const url = `./js/${id}db.json`; // Suponiendo que los archivos JSON tienen el mismo nombre que los IDs
-//   fetch(url)
-//     .then((respuesta) => respuesta.json())
-//     .then((resultado) => console.log(resultado))
-//     .catch((error) => console.error("Error al cargar el archivo JSON", error));
-// }
-
 function abrirModal(id) {
   const url = `./js/db.json`;
   fetch(url)
@@ -300,12 +291,50 @@ function abrirModal(id) {
     })
 
 }
-
-
 function MostrarVeterinariasModal(veterinaria){
-  const {id, imagen, titulo, texto} = veterinaria
+  const {id, imagen, servicio,titulo, texto,horario,imgVet,nomabreVeterinario,experiencia,descripcion,telefon0} = veterinaria
   
-  const Modaltitulo = document.querySelector(".modal .modaltittle");
+  const Modaltitulo = document.querySelector(".modal .modal-title");
+  const ModalBody = document.querySelector(".modal .modal-body");
+  const ModalInfovet = document.querySelector(".modal .modal-info-vet");
+  const ModalInfo = document.querySelector(".modal .modal-info");
+
+
+
+  Modaltitulo.textContent = titulo
+  ModalBody.innerHTML = `
+    <img class="img-fluid w-100 h-25" src="${imagen}" />
+    <h2>Ubicacion: ${texto}</h2>
+    <p>Horario:${horario}</p>
+    
+  `;
+  ModalInfovet.innerHTML = `
+  <img class="img-fluid" src="${imgVet}" />
+  <p>${nomabreVeterinario}</p>
+  <p>Experincia: ${experiencia}</p>
+  <p>Telefono:${telefon0}</p>
+  
+`;
+ModalInfo.innerHTML = `
+<p>${descripcion}</p>
+<h2>Servicios</h2>
+`;
+const listGroup = document.createElement('UL');
+listGroup.classList.add('list-group');
+for(let i = 1; i <= 20; i++){
+  if(veterinaria[`servicio${i}`]){
+    const servicios = veterinaria[`servicio${i}`]
+
+    const serviciosLi = document.createElement("LI");
+    serviciosLi.classList.add('list-group-item');
+    serviciosLi.textContent = `${servicios}`
+
+    listGroup.appendChild(serviciosLi)
+    
+  }
+}
+
+ModalInfo.appendChild(listGroup)
   modal.show()
 }
 
